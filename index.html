@@ -8,7 +8,8 @@
 </head>
 <body>
   <!-- Start screen -->
-  <div class="start-screen">
+  <div class="container">
+    <div class="start-screen">
     <header>
       <h2>Welcome to</h2>
       <h1>Tic Tac Toe</h1>
@@ -32,24 +33,28 @@
   </div>
 
   <!-- Game screen -->
-  <!-- <section class="game-screen">
-    <h2><span>Lorem's</span> Move</h2>
+  <section class="game-screen">
+    <h2><span class="player">Lorem's</span> Move</h2>
 
     <div class="board">
-      <button>X</button>
-      <button>O</button>
-      <button>X</button>
-      <button>O</button>
-      <button>X</button>
-      <button>O</button>
-      <button>X</button>
-      <button>O</button>
-      <button>X</button>
+      <button class="btn-board active">X</button>
+      <button class="btn-board active win">O</button>
+      <button class="btn-board"></button>
+      <button class="btn-board"></button>
+      <button class="btn-board"></button>
+      <button class="btn-board"></button>
+      <button class="btn-board"></button>
+      <button class="btn-board"></button>
+      <button class="btn-board"></button>
     </div>
 
-    <button>Restart →</button>
-    <button>New →</button>
-  </section> -->
+    <div class="game-buttons">
+      <button class="btn-arrow restart">Restart <span class="rotate-225deg">→</span></button>
+      <button class="btn-arrow new">New <span>→</span></button>  
+    </div>
+  </section>
+  </div>
+  
 
 </body>
 </html>

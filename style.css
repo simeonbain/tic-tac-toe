@@ -79,6 +79,7 @@ input::placeholder {
   background: transparent;
   border: none;
   font-size: 1.5rem;
+  margin-left: 0.5em; 
 
   display: flex;
   align-items: center;
@@ -89,8 +90,14 @@ input::placeholder {
   margin-left: 0.2em;
 }
 
-/* Start screen */
-.start-screen {
+.hidden {
+  display: none !important;
+}
+
+/* General layout */
+.start-screen,
+.game-screen {
+
   display: flex;
   flex-direction: column;
 
@@ -100,9 +107,10 @@ input::placeholder {
   padding-block: 1rem; 
 
   min-height: 100vh;  
-  gap: 2rem; 
+  gap: 4rem; 
 }
 
+/* Start screen */
 .player-o-buttons {
   display: flex;
   width: 100%; 
@@ -116,4 +124,48 @@ input::placeholder {
 
 .start {
   margin-left: auto;
+}
+
+/* Game screen */ 
+.player {
+  font-weight: 700;
+}
+
+.board {
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.8rem; 
+}
+
+.btn-board {
+  margin: 0; 
+  aspect-ratio: 1;
+  font-size: 3rem;
+  font-weight: 700;
+
+  background-color: transparent;
+  color: transparent; 
+  border: 0.0625rem dashed var(--color-medium);
+}
+
+.btn-board.active {
+  background-color: var(--color-light); 
+  color: var(--color-dark); 
+  border: 0.0625rem solid var(--color-dark);
+  box-shadow: 0.125rem 0.125rem 0 0.03125rem var(--color-dark);
+}
+
+.btn-board.win {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  box-shadow: 0.0625rem 0.0625rem 0 0.01rem var(--color-light), 0.15rem 0.15rem 0 0.03125rem var(--color-dark);
+}
+
+.game-buttons {
+  display: flex; 
+  margin-left: auto; 
+}
+
+.rotate-225deg {
+ transform: translateY(0.0625rem) rotate(225deg);
 }
