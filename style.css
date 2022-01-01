@@ -91,7 +91,7 @@ input::placeholder {
 }
 
 .hidden {
-  display: none !important;
+  visibility: hidden !important;
 }
 
 /* General layout */
@@ -164,6 +164,10 @@ input::placeholder {
 .game-buttons {
   display: flex; 
   margin-left: auto; 
+}
+
+.new {
+  display: none;
 }
 
 .rotate-225deg {
