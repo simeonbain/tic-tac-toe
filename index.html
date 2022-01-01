@@ -5,54 +5,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="tic-tac-toe.js" defer></script>
 </head>
 <body>
-  <!-- Start screen -->
   <div class="container">
+  <!-- Start screen -->
     <div class="start-screen">
-    <header>
-      <h2>Welcome to</h2>
-      <h1>Tic Tac Toe</h1>
-    </header>
+      <header>
+        <h2>Welcome to</h2>
+        <h1>Tic Tac Toe</h1>
+      </header>
 
-    <section class="setup">
-      <h3>Player <span>X</span></h3>
-      <input type="text" name="player-x-name" placeholder="Name"></input>
-    
-      <h3>Player <span>O</span></h3>
+      <section class="setup">
+        <h3>Player <span>X</span></h3>
+        <input type="text" name="player1-name" placeholder="Name"></input>
+      
+        <h3>Player <span>O</span></h3>
 
-      <div class="player-o-buttons">
-        <button class="btn-block selected human">Human</button>
-        <button class="btn-block random-ai">Random AI</button>
-        <button class="btn-block smart-ai">Smart AI</button>
-      </div>  
-      <input type="text" name="player-o-name" placeholder="Name"></input>
+        <div class="player2-buttons">
+          <button class="btn-block selected" data-type="human">Human</button>
+          <button class="btn-block" data-type="random-ai">Random AI</button>
+          <button class="btn-block" data-type="smart-ai">Smart AI</button>
+        </div>  
+        <input type="text" name="player2-name" placeholder="Name"></input>
+      </section>
+
+      <button class="btn-arrow start">Start<span>→</span></button>
+    </div>
+
+    <!-- Game screen -->
+    <section class="game-screen">
+      <h2 class="status"><span class="player">Lorem's</span> Move</h2>
+
+      <div class="board">
+        <button class="btn-board" data-row="0" data-column="0">X</button>
+        <button class="btn-board" data-row="0" data-column="1">O</button>
+        <button class="btn-board" data-row="0" data-column="2"></button>
+        <button class="btn-board" data-row="1" data-column="0"></button>
+        <button class="btn-board" data-row="1" data-column="1"></button>
+        <button class="btn-board" data-row="1" data-column="2"></button>
+        <button class="btn-board" data-row="2" data-column="0"></button>
+        <button class="btn-board" data-row="2" data-column="1"></button>
+        <button class="btn-board" data-row="2" data-column="2"></button>
+      </div>
+
+      <div class="game-buttons">
+        <button class="btn-arrow restart">Restart <span class="rotate-225deg">→</span></button>
+        <button class="btn-arrow new">New <span>→</span></button>  
+      </div>
     </section>
-
-    <button class="btn-arrow start">Start<span>→</span></button>
-  </div>
-
-  <!-- Game screen -->
-  <section class="game-screen">
-    <h2><span class="player">Lorem's</span> Move</h2>
-
-    <div class="board">
-      <button class="btn-board active">X</button>
-      <button class="btn-board active win">O</button>
-      <button class="btn-board"></button>
-      <button class="btn-board"></button>
-      <button class="btn-board"></button>
-      <button class="btn-board"></button>
-      <button class="btn-board"></button>
-      <button class="btn-board"></button>
-      <button class="btn-board"></button>
-    </div>
-
-    <div class="game-buttons">
-      <button class="btn-arrow restart">Restart <span class="rotate-225deg">→</span></button>
-      <button class="btn-arrow new">New <span>→</span></button>  
-    </div>
-  </section>
   </div>
   
 

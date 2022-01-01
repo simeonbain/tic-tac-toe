@@ -111,13 +111,13 @@ input::placeholder {
 }
 
 /* Start screen */
-.player-o-buttons {
+.player2-buttons {
   display: flex;
   width: 100%; 
   gap: 0.5rem; 
 }
 
-.player-o-buttons button {
+.player2-buttons button {
   flex: 1; 
   padding-inline: 0; 
 }
