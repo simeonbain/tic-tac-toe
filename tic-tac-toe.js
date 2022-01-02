@@ -2,16 +2,29 @@
 const Player = (name, token) => {
   const getName = () => name;
   const getToken = () => token;
+  const makeMove = () => {};
 
   return {
     getName,
     getToken,
+    makeMove,
   };
 };
 
 const HumanPlayer = (name, token) => {
   const prototype = Player(name, token);
-  return Object.assign({}, prototype);
+
+  let _move = null;
+
+  const setUserMove = ([moveRow, moveColumn]) => {
+    _move = [moveRow, moveColumn];
+  };
+
+  const makeMove = () => {
+    gameBoard.setBoardSquare(_move, token);
+  };
+
+  return Object.assign({}, prototype, { setUserMove, makeMove });
 };
 
 const RandomAIPlayer = (name, token) => {
@@ -23,23 +36,23 @@ const RandomAIPlayer = (name, token) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-  // Returns a random valid move in the format [moveRow, moveColumn]
-  const getMove = () => {
+  const makeMove = () => {
     const validMoves = gameBoard.getEmptyBoardSquares();
     if (validMoves.length > 0) {
-      return validMoves[_getRandomIntInclusive(0, validMoves.length - 1)];
+      gameBoard.setBoardSquare(
+        validMoves[_getRandomIntInclusive(0, validMoves.length - 1)],
+        token
+      );
     }
   };
 
-  return Object.assign({}, prototype, { getMove });
+  return Object.assign({}, prototype, { makeMove });
 };
 
 const SmartAIPlayer = (name, token) => {
   const prototype = Player(name, token);
 
-  // Returns the optimal valid move in the format [moveRow, moveColumn]
-  const getMove = () => {};
-  return Object.assign({}, prototype, { getMove });
+  return Object.assign({}, prototype, {});
 };
 
 /* -- State -- */
@@ -90,6 +103,14 @@ const gameBoard = (() => {
     return emptyBoardSquares;
   };
 
+  const isBoardSquareEmpty = ([row, column]) => {
+    return _board[row][column] === `` ? true : false;
+  };
+
+  const checkWin = () => {
+    // TODO
+  };
+
   const resetBoard = () => {
     _board.forEach((row, rowIndex) => {
       row.forEach((column, columnIndex) => {
@@ -102,6 +123,8 @@ const gameBoard = (() => {
     setBoardSquare,
     getBoardSquare,
     getEmptyBoardSquares,
+    isBoardSquareEmpty,
+    checkWin,
     resetBoard,
   };
 })();
@@ -114,7 +137,7 @@ const game = (() => {
   let _currentPlayer = null;
   let _state = gameState.INITIAL;
 
-  // Internal functions
+  // Internal helper functions
   const _getRandomPlayer = () => {
     if (Math.round(Math.random()) === 0) {
       return _player1;
@@ -123,7 +146,7 @@ const game = (() => {
     }
   };
 
-  const _toggleCurrentPlayer = () => {
+  const _switchCurrentPlayer = () => {
     _currentPlayer = _currentPlayer === _player1 ? _player2 : _player1;
   };
 
@@ -145,38 +168,41 @@ const game = (() => {
     _state = gameState.IN_PROGRESS;
   };
 
-  const makeUserMove = ([moveRow, moveColumn]) => {
-    if (_currentPlayer && _currentPlayer.getMove === undefined) {
-      // Only accept the user move if the current player cannot generate it's own
-      gameBoard.setBoardSquare(
-        [moveRow, moveColumn],
-        _currentPlayer.getToken()
-      );
-      _toggleCurrentPlayer();
+  const update = () => {
+    if (gameBoard.checkWin() === true) {
+      // Game over, current player wins
+      _state = gameState.WIN;
+    } else if (gameBoard.getEmptyBoardSquares().length === 0) {
+      // Game over, it's a draw
+      _state = gameState.DRAW;
+    } else {
+      // Game still running, switch the current player for the next turn
+      _switchCurrentPlayer();
     }
   };
 
   const restart = () => {
-    gameBoard.resetBoard(); 
+    gameBoard.resetBoard();
     _currentPlayer = _getRandomPlayer();
-    _state = gameState.IN_PROGRESS; 
-  }
+    _state = gameState.IN_PROGRESS;
+  };
 
   const reset = () => {
-    gameBoard.resetBoard(); 
-    _player1 = null; 
-    _player2 = null; 
-    _currentPlayer = null; 
-    _state = gameState.INITIAL; 
-  }
+    gameBoard.resetBoard();
+    _player1 = null;
+    _player2 = null;
+    _currentPlayer = null;
+    _state = gameState.INITIAL;
+  };
 
   return {
     getCurrentPlayer,
     getState,
     initialise,
-    makeUserMove,
+    //makeUserMove,
+    update,
     restart,
-    reset, 
+    reset,
   };
 })();
 
@@ -228,11 +254,11 @@ const displayController = (() => {
     });
 
     if (game.getState() === gameState.INITIAL) {
-      objectSelector.status.classList.add(`hidden`); 
-      objectSelector.restartButton.classList.add(`hidden`); 
+      objectSelector.status.classList.add(`hidden`);
+      objectSelector.restartButton.classList.add(`hidden`);
     } else {
-      objectSelector.status.classList.remove(`hidden`); 
-      objectSelector.restartButton.classList.remove(`hidden`); 
+      objectSelector.status.classList.remove(`hidden`);
+      objectSelector.restartButton.classList.remove(`hidden`);
 
       // Update the next move prompt based on current player
       objectSelector.status.firstElementChild.innerText = `${game
@@ -279,7 +305,22 @@ const ticTacToeApp = (() => {
   // Variables
   let _player2TypeSelection = _PLAYER_TYPE_HUMAN;
 
-  // Event handlers
+  // Internal helper functions
+  const _makeMoveIfAI = (player) => {
+    // A move can't be made if the game is not currently running
+    if (game.getState() !== gameState.IN_PROGRESS) {
+      return; 
+    }
+
+    if (player.setUserMove === undefined) {
+      // Player is an AI player so make the move and update the game/display
+      player.makeMove();
+      game.update();
+      displayController.render();
+    }
+  };
+
+  // Internal event handlers
   const _onPlayer2Button = (event) => {
     switch (event.target.dataset.type) {
       case `human`:
@@ -321,8 +362,7 @@ const ticTacToeApp = (() => {
         player2 = HumanPlayer(player2Name, _PLAYER_2_DEFAULT_TOKEN);
         break;
       case _PLAYER_TYPE_RANDOM_AI:
-        // TODO: swap to RandomAIPlayer
-        player2 = HumanPlayer(player2Name, _PLAYER_2_DEFAULT_TOKEN);
+        player2 = RandomAIPlayer(player2Name, _PLAYER_2_DEFAULT_TOKEN);
         break;
       case _PLAYER_TYPE_SMART_AI:
         // TODO: swap to SmartAIPlayer
@@ -335,29 +375,62 @@ const ticTacToeApp = (() => {
     // Initialise the game
     game.initialise(player1, player2);
 
+    // Trigger an AI move in case the new current player is AI
+    _makeMoveIfAI(game.getCurrentPlayer()); 
+
     // Update the display
     displayController.render();
   };
 
   const _onRestart = (event) => {
-    game.restart(); 
+    game.restart();
+
+    // Trigger an AI move in case the current player is AI
+    _makeMoveIfAI(game.getCurrentPlayer()); 
 
     // Update the display
     displayController.render();
   };
 
   const _onNew = (event) => {
-    game.reset(); 
+    game.reset();
 
     // Update the display
     displayController.render();
   };
 
   const _onBoardButton = (event) => {
-    game.makeUserMove([event.target.dataset.row, event.target.dataset.column]);
+    // If the game isn't running, 
+    // or the button selected was one that is already filled, we can ignore it
+    if (
+      game.getState() !== gameState.IN_PROGRESS ||
+      !gameBoard.isBoardSquareEmpty([
+        event.target.dataset.row,
+        event.target.dataset.column,
+      ])
+    ) {
+      return;
+    }
 
-    // Update the display
-    displayController.render();
+    // Process the selected button only if the current player is not an AI
+    else if (game.getCurrentPlayer().setUserMove !== undefined) {
+      // Set the move to the selected button
+      game
+        .getCurrentPlayer()
+        .setUserMove([event.target.dataset.row, event.target.dataset.column]);
+
+      // Execute the move 
+      game.getCurrentPlayer().makeMove();
+
+      // Update the game after the move (including switching the current player)
+      game.update();
+
+      // Update the display
+      displayController.render();
+
+      // Trigger an AI move in case the new current player is AI
+      _makeMoveIfAI(game.getCurrentPlayer()); 
+    }
   };
 
   // Event listeners
