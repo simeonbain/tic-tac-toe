@@ -79,14 +79,60 @@ const gameBoard = (() => {
     [``, ``, ``],
   ];
 
-  const setBoardSquare = ([row, column], value) => {
-    if (_board[row][column] === ``) {
-      _board[row][column] = value;
+  const _isWinInRow = (rowIndex) => {
+    for (let columnIndex = 0; columnIndex < _board.length - 1; columnIndex++) {
+      if (
+        _board[rowIndex][columnIndex] === `` ||
+        _board[rowIndex][columnIndex] !== _board[rowIndex][columnIndex + 1]
+      ) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const _isWinInColumn = (columnIndex) => {
+    for (let rowIndex = 0; rowIndex < _board.length - 1; rowIndex++) {
+      if (
+        _board[rowIndex][columnIndex] === `` ||
+        _board[rowIndex][columnIndex] !== _board[rowIndex + 1][columnIndex]
+      ) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const _isWinInLeftDiagonal = () => {
+    let count = 1;
+    for (let i = 0; i < _board.length - 1; i++) {
+      if (_board[i][i] !== `` && _board[i][i] === _board[i + 1][i + 1]) {
+        count++;
+      }
+    }
+
+    return count === _board.length ? true : false;
+  };
+
+  const _isWinInRightDiagonal = () => {
+    let count = 1;
+    for (let i = 0, j = _board.length - 1; i < _board.length - 1; i++, j--) {
+      if (_board[i][j] !== `` && _board[i][j] === _board[i + 1][j - 1]) {
+        count++;
+      }
+    }
+
+    return count === _board.length ? true : false;
+  };
+
+  const setBoardSquare = ([rowIndex, columnIndex], value) => {
+    if (_board[rowIndex][columnIndex] === ``) {
+      _board[rowIndex][columnIndex] = value;
     }
   };
 
-  const getBoardSquare = ([row, column]) => {
-    return _board[row][column];
+  const getBoardSquare = ([rowIndex, columnIndex]) => {
+    return _board[rowIndex][columnIndex];
   };
 
   const getEmptyBoardSquares = () => {
@@ -103,12 +149,32 @@ const gameBoard = (() => {
     return emptyBoardSquares;
   };
 
-  const isBoardSquareEmpty = ([row, column]) => {
-    return _board[row][column] === `` ? true : false;
+  const isBoardSquareEmpty = ([rowIndex, columnIndex]) => {
+    return _board[rowIndex][columnIndex] === `` ? true : false;
   };
 
   const checkWin = () => {
-    // TODO
+    // Check each row for win
+    for (let rowIndex = 0; rowIndex < _board.length; rowIndex++) {
+      if (_isWinInRow(rowIndex)) {
+        return true;
+      }
+    }
+
+    // Check each column for win
+    for (let columnIndex = 0; columnIndex < _board.length; columnIndex++) {
+      if (_isWinInColumn(columnIndex)) {
+        return true;
+      }
+    }
+
+    // Check diagonals for win
+    if (_isWinInLeftDiagonal() || _isWinInRightDiagonal()) {
+      return true;
+    }
+
+    // All rows, columns and diagonals have been checked, there is no win
+    return false;
   };
 
   const resetBoard = () => {
@@ -260,11 +326,6 @@ const displayController = (() => {
       objectSelector.status.classList.remove(`hidden`);
       objectSelector.restartButton.classList.remove(`hidden`);
 
-      // Update the next move prompt based on current player
-      objectSelector.status.firstElementChild.innerText = `${game
-        .getCurrentPlayer()
-        .getName()}'s`;
-
       // Update the board on game screen
       objectSelector.boardButtons.forEach((boardButton) => {
         // Get the value of each button based on the internal gameBoard
@@ -282,6 +343,22 @@ const displayController = (() => {
           boardButton.classList.add(`active`);
         }
       });
+
+      if (game.getState() === gameState.IN_PROGRESS) {
+        // Update the next move prompt based on current player
+        objectSelector.status.firstElementChild.innerText = `${game
+          .getCurrentPlayer()
+          .getName()}'s`;
+        objectSelector.status.lastElementChild.innerText = ` Move`;
+      } else if (game.getState() === gameState.WIN) {
+        objectSelector.status.firstElementChild.innerText = `${game
+          .getCurrentPlayer()
+          .getName()}`;
+        objectSelector.status.lastElementChild.innerText = ` Wins! 🏆`;
+      } else if (game.getState() === gameState.DRAW) {
+        objectSelector.status.firstElementChild.innerText = ``;
+        objectSelector.status.lastElementChild.innerText = `It's a draw 🤝`;
+      }
     }
   };
 
@@ -309,7 +386,7 @@ const ticTacToeApp = (() => {
   const _makeMoveIfAI = (player) => {
     // A move can't be made if the game is not currently running
     if (game.getState() !== gameState.IN_PROGRESS) {
-      return; 
+      return;
     }
 
     if (player.setUserMove === undefined) {
@@ -376,7 +453,7 @@ const ticTacToeApp = (() => {
     game.initialise(player1, player2);
 
     // Trigger an AI move in case the new current player is AI
-    _makeMoveIfAI(game.getCurrentPlayer()); 
+    _makeMoveIfAI(game.getCurrentPlayer());
 
     // Update the display
     displayController.render();
@@ -386,7 +463,7 @@ const ticTacToeApp = (() => {
     game.restart();
 
     // Trigger an AI move in case the current player is AI
-    _makeMoveIfAI(game.getCurrentPlayer()); 
+    _makeMoveIfAI(game.getCurrentPlayer());
 
     // Update the display
     displayController.render();
@@ -400,7 +477,7 @@ const ticTacToeApp = (() => {
   };
 
   const _onBoardButton = (event) => {
-    // If the game isn't running, 
+    // If the game isn't running,
     // or the button selected was one that is already filled, we can ignore it
     if (
       game.getState() !== gameState.IN_PROGRESS ||
@@ -419,7 +496,7 @@ const ticTacToeApp = (() => {
         .getCurrentPlayer()
         .setUserMove([event.target.dataset.row, event.target.dataset.column]);
 
-      // Execute the move 
+      // Execute the move
       game.getCurrentPlayer().makeMove();
 
       // Update the game after the move (including switching the current player)
@@ -429,7 +506,7 @@ const ticTacToeApp = (() => {
       displayController.render();
 
       // Trigger an AI move in case the new current player is AI
-      _makeMoveIfAI(game.getCurrentPlayer()); 
+      _makeMoveIfAI(game.getCurrentPlayer());
     }
   };
 
