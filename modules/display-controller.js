@@ -1,4 +1,3 @@
-import { gameBoard } from "./game-board.js";
 import { game } from "./game.js";
 import { gameState } from "./game-state.js";
 import { objectSelector } from "./object-selector.js";
@@ -37,7 +36,7 @@ const displayController = (() => {
       // Update the board on game screen
       objectSelector.boardButtons.forEach((boardButton) => {
         // Get the value of each button based on the internal gameBoard
-        const value = gameBoard.getBoardSquare([
+        const value = game.getGameBoard().getBoardSquare([
           +boardButton.dataset.row,
           +boardButton.dataset.column,
         ]);

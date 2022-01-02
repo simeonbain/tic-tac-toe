@@ -1,5 +1,4 @@
 import { HumanPlayer, RandomAIPlayer, SmartAIPlayer } from "./modules/players.js";
-import { gameBoard } from "./modules/game-board.js";
 import { game } from "./modules/game.js";
 import { gameState } from "./modules/game-state.js";
 import { objectSelector } from "./modules/object-selector.js";
@@ -80,8 +79,7 @@ const ticTacToeApp = (() => {
         player2 = RandomAIPlayer(player2Name, _PLAYER_2_DEFAULT_TOKEN);
         break;
       case _PLAYER_TYPE_SMART_AI:
-        // TODO: swap to SmartAIPlayer
-        player2 = HumanPlayer(player2Name, _PLAYER_2_DEFAULT_TOKEN);
+        player2 = SmartAIPlayer(player2Name, _PLAYER_2_DEFAULT_TOKEN);
         break;
       default:
         player2 = HumanPlayer(player2Name, _PLAYER_2_DEFAULT_TOKEN);
@@ -119,7 +117,7 @@ const ticTacToeApp = (() => {
     // or the button selected was one that is already filled, we can ignore it
     if (
       game.getState() !== gameState.IN_PROGRESS ||
-      !gameBoard.isBoardSquareEmpty([
+      !game.getGameBoard().isBoardSquareEmpty([
         event.target.dataset.row,
         event.target.dataset.column,
       ])

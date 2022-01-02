@@ -1,4 +1,4 @@
-import { gameBoard } from "./game-board.js";
+import { GameBoard } from "./game-board.js";
 import { gameState } from "./game-state.js";
 
 /* -- Game -- */
@@ -8,6 +8,7 @@ const game = (() => {
   let _player2 = null;
   let _currentPlayer = null;
   let _state = gameState.INITIAL;
+  const _gameBoard = GameBoard(); 
 
   // Internal helper functions
   const _getRandomPlayer = () => {
@@ -31,20 +32,24 @@ const game = (() => {
     return _state;
   };
 
+  const getGameBoard = () => {
+    return _gameBoard;
+  };
+
   // Methods
   const initialise = (player1, player2) => {
     _player1 = player1;
     _player2 = player2;
-    gameBoard.resetBoard();
+    _gameBoard.resetBoard();
     _currentPlayer = _getRandomPlayer();
     _state = gameState.IN_PROGRESS;
   };
 
   const update = () => {
-    if (gameBoard.checkWin() === true) {
+    if (_gameBoard.checkWin() === true) {
       // Game over, current player wins
       _state = gameState.WIN;
-    } else if (gameBoard.getEmptyBoardSquares().length === 0) {
+    } else if (_gameBoard.getEmptyBoardSquares().length === 0) {
       // Game over, it's a draw
       _state = gameState.DRAW;
     } else {
@@ -54,13 +59,13 @@ const game = (() => {
   };
 
   const restart = () => {
-    gameBoard.resetBoard();
+    _gameBoard.resetBoard();
     _currentPlayer = _getRandomPlayer();
     _state = gameState.IN_PROGRESS;
   };
 
   const reset = () => {
-    gameBoard.resetBoard();
+    _gameBoard.resetBoard();
     _player1 = null;
     _player2 = null;
     _currentPlayer = null;
@@ -70,6 +75,7 @@ const game = (() => {
   return {
     getCurrentPlayer,
     getState,
+    getGameBoard,
     initialise,
     update,
     restart,

@@ -1,5 +1,5 @@
 /* -- Game Board -- */
-const gameBoard = (() => {
+const GameBoard = () => {
   const _board = [
     [``, ``, ``],
     [``, ``, ``],
@@ -58,6 +58,10 @@ const gameBoard = (() => {
     }
   };
 
+  const getSize = () => {
+    return _board.length; 
+  }
+
   const getBoardSquare = ([rowIndex, columnIndex]) => {
     return _board[rowIndex][columnIndex];
   };
@@ -114,12 +118,13 @@ const gameBoard = (() => {
 
   return {
     setBoardSquare,
+    getSize,
     getBoardSquare,
     getEmptyBoardSquares,
     isBoardSquareEmpty,
     checkWin,
     resetBoard,
   };
-})();
+};
 
-export { gameBoard };
+export { GameBoard };
