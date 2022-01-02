@@ -1,8 +1,9 @@
-import { HumanPlayer, RandomAIPlayer, SmartAIPlayer } from `./modules/players`;
-import { gameBoard } from "./modules/game-board";
-import { game } from "./modules/game";
-import { objectSelector } from "./modules/object-selector";
-import { displayController } from "./modules/display-controller";
+import { HumanPlayer, RandomAIPlayer, SmartAIPlayer } from "./modules/players.js";
+import { gameBoard } from "./modules/game-board.js";
+import { game } from "./modules/game.js";
+import { gameState } from "./modules/game-state.js";
+import { objectSelector } from "./modules/object-selector.js";
+import { displayController } from "./modules/display-controller.js";
 
 
 /* -- Main Controller -- */

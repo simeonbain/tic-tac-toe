@@ -1,5 +1,5 @@
-import { gameBoard } from "./game-board";
-import { gameState } from "./game-state";
+import { gameBoard } from "./game-board.js";
+import { gameState } from "./game-state.js";
 
 /* -- Game -- */
 const game = (() => {

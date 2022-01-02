@@ -1,4 +1,4 @@
-import { gameBoard } from "./game-board";
+import { gameBoard } from "./game-board.js";
 
 const Player = (name, token) => {
   const getName = () => name;

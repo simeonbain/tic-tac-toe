@@ -1,7 +1,7 @@
-import { gameBoard } from "./game-board";
-import { game } from "./game";
-import { gameState } from "./game-state";
-import { objectSelector } from "./object-selector";
+import { gameBoard } from "./game-board.js";
+import { game } from "./game.js";
+import { gameState } from "./game-state.js";
+import { objectSelector } from "./object-selector.js";
 
 /* -- Display Controller -- */
 const displayController = (() => {
