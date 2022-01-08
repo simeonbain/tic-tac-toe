@@ -1,6 +1,5 @@
 /* -- State -- */
 const gameState = (() => {
-  // State constants
   const INITIAL = 0;
   const IN_PROGRESS = 1;
   const WIN = 2;

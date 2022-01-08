@@ -1,13 +1,16 @@
-import { HumanPlayer, RandomAIPlayer, SmartAIPlayer } from "./modules/players.js";
+import {
+  HumanPlayer,
+  RandomAIPlayer,
+  SmartAIPlayer,
+} from "./modules/players.js";
 import { game } from "./modules/game.js";
 import { gameState } from "./modules/game-state.js";
 import { objectSelector } from "./modules/object-selector.js";
 import { displayController } from "./modules/display-controller.js";
 
-
-/* -- Main Controller -- */
+/* -- Main Controller -- */ 
 const ticTacToeApp = (() => {
-  // Constants
+  /* Constants */
   const _PLAYER_1_DEFAULT_NAME = `Player X`;
   const _PLAYER_1_DEFAULT_TOKEN = `X`;
   const _PLAYER_2_DEFAULT_NAME = `Player O`;
@@ -16,10 +19,10 @@ const ticTacToeApp = (() => {
   const _PLAYER_TYPE_RANDOM_AI = 1;
   const _PLAYER_TYPE_SMART_AI = 2;
 
-  // Variables
+  /* Variables */
   let _player2TypeSelection = _PLAYER_TYPE_HUMAN;
 
-  // Internal helper functions
+  /* Internal helper functions */
   const _makeMoveIfAI = (player) => {
     // A move can't be made if the game is not currently running
     if (game.getState() !== gameState.IN_PROGRESS) {
@@ -34,7 +37,7 @@ const ticTacToeApp = (() => {
     }
   };
 
-  // Internal event handlers
+  /* Internal event handlers */
   const _onPlayer2Button = (event) => {
     switch (event.target.dataset.type) {
       case `human`:
@@ -117,10 +120,12 @@ const ticTacToeApp = (() => {
     // or the button selected was one that is already filled, we can ignore it
     if (
       game.getState() !== gameState.IN_PROGRESS ||
-      !game.getGameBoard().isBoardSquareEmpty([
-        event.target.dataset.row,
-        event.target.dataset.column,
-      ])
+      !game
+        .getGameBoard()
+        .isBoardSquareEmpty([
+          event.target.dataset.row,
+          event.target.dataset.column,
+        ])
     ) {
       return;
     }
@@ -146,7 +151,7 @@ const ticTacToeApp = (() => {
     }
   };
 
-  // Event listeners
+  /* Event listeners */
   objectSelector.player2Buttons.forEach((button) => {
     button.addEventListener(`click`, _onPlayer2Button);
   });

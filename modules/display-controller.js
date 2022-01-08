@@ -4,12 +4,15 @@ import { objectSelector } from "./object-selector.js";
 
 /* -- Display Controller -- */
 const displayController = (() => {
+  /* Variables */
   let _player2TypeSelection = `human`;
 
+  /* Internal helper functions */
   const setPlayer2TypeSelection = (selectedType) => {
     _player2TypeSelection = selectedType;
   };
 
+  /* Methods */
   const render = () => {
     // Update Player 2 type selection on start screen
     objectSelector.player2Buttons.forEach((button) => {
@@ -36,10 +39,12 @@ const displayController = (() => {
       // Update the board on game screen
       objectSelector.boardButtons.forEach((boardButton) => {
         // Get the value of each button based on the internal gameBoard
-        const value = game.getGameBoard().getBoardSquare([
-          +boardButton.dataset.row,
-          +boardButton.dataset.column,
-        ]);
+        const value = game
+          .getGameBoard()
+          .getBoardSquare([
+            +boardButton.dataset.row,
+            +boardButton.dataset.column,
+          ]);
 
         // Update the DOM
         if (value === ``) {

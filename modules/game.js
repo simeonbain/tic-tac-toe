@@ -3,14 +3,14 @@ import { gameState } from "./game-state.js";
 
 /* -- Game -- */
 const game = (() => {
-  // Variables
+  /* Variables */
   let _player1 = null;
   let _player2 = null;
   let _currentPlayer = null;
   let _state = gameState.INITIAL;
-  const _gameBoard = GameBoard(); 
+  const _gameBoard = GameBoard();
 
-  // Internal helper functions
+  /* Internal helper functions */
   const _getRandomPlayer = () => {
     if (Math.round(Math.random()) === 0) {
       return _player1;
@@ -23,7 +23,7 @@ const game = (() => {
     _currentPlayer = _currentPlayer === _player1 ? _player2 : _player1;
   };
 
-  // Getters/Setters
+  /* Getters/Setters */
   const getCurrentPlayer = () => {
     return _currentPlayer;
   };
@@ -36,7 +36,7 @@ const game = (() => {
     return _gameBoard;
   };
 
-  // Methods
+  /* Methods */
   const initialise = (player1, player2) => {
     _player1 = player1;
     _player2 = player2;

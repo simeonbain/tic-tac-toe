@@ -1,11 +1,13 @@
-/* -- Game Board -- */
+/* -- Game Board Class -- */
 const GameBoard = () => {
+  /* Variables */
   const _board = [
     [``, ``, ``],
     [``, ``, ``],
     [``, ``, ``],
   ];
 
+  /* Internal helper functions */
   const _isWinInRow = (rowIndex) => {
     for (let columnIndex = 0; columnIndex < _board.length - 1; columnIndex++) {
       if (
@@ -52,6 +54,7 @@ const GameBoard = () => {
     return count === _board.length ? true : false;
   };
 
+  /* Getters/Setters */
   const setBoardSquare = ([rowIndex, columnIndex], value) => {
     if (_board[rowIndex][columnIndex] === ``) {
       _board[rowIndex][columnIndex] = value;
@@ -59,8 +62,8 @@ const GameBoard = () => {
   };
 
   const getSize = () => {
-    return _board.length; 
-  }
+    return _board.length;
+  };
 
   const getBoardSquare = ([rowIndex, columnIndex]) => {
     return _board[rowIndex][columnIndex];
@@ -80,6 +83,7 @@ const GameBoard = () => {
     return emptyBoardSquares;
   };
 
+  /* Methods */
   const isBoardSquareEmpty = ([rowIndex, columnIndex]) => {
     return _board[rowIndex][columnIndex] === `` ? true : false;
   };
