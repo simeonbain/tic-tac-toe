@@ -8,6 +8,8 @@ const objectSelector = (() => {
   const newButton = document.querySelector(`.new`);
   const boardButtons = document.querySelectorAll(`.btn-board`);
   const status = document.querySelector(`.status`);
+  const startScreen = document.querySelector(`.start-screen`);
+  const gameScreen = document.querySelector(`.game-screen`); 
 
   return {
     player1Name,
@@ -18,6 +20,8 @@ const objectSelector = (() => {
     newButton,
     boardButtons,
     status,
+    startScreen,
+    gameScreen
   };
 })();
 

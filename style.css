@@ -8,13 +8,22 @@ html {
   font-family: "Roboto", sans-serif;
 
   box-sizing: border-box;
-  height: 100vh;
+  height: 100%;
 
   --color-light: hsl(0, 0%, 100%);
   --color-medium: hsl(0, 0%, 60%);
   --color-dark: hsl(0, 0%, 0%);
+
+  overflow: hidden;
 }
 
+body {
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+body,
 h1,
 h2,
 h3,
@@ -45,6 +54,9 @@ h3 {
 h3 span {
   text-decoration: underline;
 }
+button {
+  padding: 0;
+}
 
 input {
   font-size: 1.125rem;
@@ -63,6 +75,7 @@ input::placeholder {
 
 .btn-block {
   background: var(--color-light);
+  color: var(--color-dark);
   border: 0.0625rem solid var(--color-dark);
   font-size: 1.125rem;
   padding: 0.25em 1em;
@@ -77,6 +90,7 @@ input::placeholder {
 
 .btn-arrow {
   background: transparent;
+  color: var(--color-dark);
   border: none;
   font-size: 1.5rem;
   margin-left: 0.5em;
@@ -91,12 +105,23 @@ input::placeholder {
 }
 
 .hidden {
+  /* display: none !important; */
   visibility: hidden !important;
 }
 
 /* General layout */
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
 .start-screen,
 .game-screen {
+  position: absolute;
+  width: 100%;
+  max-width: 37rem;
+
   display: flex;
   flex-direction: column;
 
@@ -107,6 +132,16 @@ input::placeholder {
 
   min-height: 100vh;
   gap: 4rem;
+
+  transition: transform 250ms ease-out;
+}
+
+.start-screen.inactive {
+  transform: translateX(-120vw);
+}
+
+.game-screen.inactive {
+  transform: translateX(120vw);
 }
 
 /* Start screen */
@@ -118,7 +153,7 @@ input::placeholder {
 
 .player2-buttons button {
   flex: 1;
-  padding-inline: 0;
+  padding-inline: 0.5em;
 }
 
 .start {
@@ -166,10 +201,53 @@ input::placeholder {
   margin-left: auto;
 }
 
-.new {
-  display: none;
-}
-
 .rotate-225deg {
   transform: translateY(0.0625rem) rotate(225deg);
+}
+
+.start-screen.inactive,
+.game-screen.inactive {
+  visibility: hidden;
+}
+
+/* Media Queries */
+@media (min-width: 1000px) {
+  .start-screen,
+  .game-screen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-block: 8rem;
+    padding-inline: 2rem;
+  }
+
+  .start-screen {
+    border-right: 1px dashed var(--color-dark);
+    max-width: 27rem;
+  }
+
+  .start-screen.inactive {
+    transform: none;
+    visibility: visible;
+  }
+
+  .game-screen {
+    margin-inline: auto;
+  }
+
+  .btn-arrow.new {
+    display: none;
+  }
+}
+
+@media (hover: hover) {
+  .btn-arrow:hover,
+  .btn-block:hover {
+    font-weight: 500;
+  }
+
+  .btn-board:hover {
+    border-style: solid;
+  }
 }

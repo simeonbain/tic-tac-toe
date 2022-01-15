@@ -32,9 +32,13 @@ const displayController = (() => {
     if (game.getState() === gameState.INITIAL) {
       objectSelector.status.classList.add(`hidden`);
       objectSelector.restartButton.classList.add(`hidden`);
+      objectSelector.startScreen.classList.remove(`inactive`); 
+      objectSelector.gameScreen.classList.add(`inactive`); 
     } else {
       objectSelector.status.classList.remove(`hidden`);
       objectSelector.restartButton.classList.remove(`hidden`);
+      objectSelector.startScreen.classList.add(`inactive`); 
+      objectSelector.gameScreen.classList.remove(`inactive`); 
 
       // Update the board on game screen
       objectSelector.boardButtons.forEach((boardButton) => {
