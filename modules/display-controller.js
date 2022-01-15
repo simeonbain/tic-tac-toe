@@ -54,6 +54,7 @@ const displayController = (() => {
         if (value === ``) {
           boardButton.innerText = ``;
           boardButton.classList.remove(`active`);
+          boardButton.classList.remove(`win`);
         } else {
           boardButton.innerText = value;
           boardButton.classList.add(`active`);
@@ -62,7 +63,7 @@ const displayController = (() => {
 
       const playerName = game.getCurrentPlayer().getName();
       if (game.getState() === gameState.IN_PROGRESS) {
-        // Update the next move prompt based on current player
+        // Update the status with next move prompt based on current player
         if (playerName.toLowerCase()[playerName.length - 1] === `s`) {
           objectSelector.status.firstElementChild.innerText = `${playerName}'`;
         } else {
@@ -70,9 +71,27 @@ const displayController = (() => {
         }
         objectSelector.status.lastElementChild.innerText = ` Move`;
       } else if (game.getState() === gameState.WIN) {
+        // Update the status with the winning player
         objectSelector.status.firstElementChild.innerText = `${playerName}`;
         objectSelector.status.lastElementChild.innerText = ` Wins! 🏆`;
+
+        // Highlight the winning squares on the board
+        objectSelector.boardButtons.forEach((boardButton) => {
+          if (
+            game
+              .getGameBoard()
+              .isWinningBoardSquare([
+                +boardButton.dataset.row,
+                +boardButton.dataset.column,
+              ])
+          ) {
+            boardButton.classList.add(`win`);
+          } else {
+            boardButton.classList.remove(`win`);
+          }
+        });
       } else if (game.getState() === gameState.DRAW) {
+        // Update the status with the draw result
         objectSelector.status.firstElementChild.innerText = ``;
         objectSelector.status.lastElementChild.innerText = `It's a draw 🤝`;
       }

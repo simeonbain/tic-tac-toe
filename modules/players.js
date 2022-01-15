@@ -84,7 +84,7 @@ const SmartAIPlayer = (name, token) => {
     const gameBoardCopy = GameBoard();
     for (let row = 0; row < gameBoard.getSize(); row++) {
       for (let column = 0; column < gameBoard.getSize(); column++) {
-        if (gameBoard.isBoardSquareEmpty([row, column])) {
+        if (gameBoard.isEmptyBoardSquare([row, column])) {
           gameBoardCopy.setBoardSquare([row, column], ``);
         } else if (gameBoard.getBoardSquare([row, column]) === token) {
           gameBoardCopy.setBoardSquare([row, column], token);

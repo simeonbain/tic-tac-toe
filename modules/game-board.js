@@ -7,6 +7,12 @@ const GameBoard = () => {
     [``, ``, ``],
   ];
 
+  const _winBoard = [
+    [false, false, false],
+    [false, false, false],
+    [false, false, false],
+  ];
+
   /* Internal helper functions */
   const _isWinInRow = (rowIndex) => {
     for (let columnIndex = 0; columnIndex < _board.length - 1; columnIndex++) {
@@ -17,6 +23,11 @@ const GameBoard = () => {
         return false;
       }
     }
+
+    for (let columnIndex = 0; columnIndex < _board.length; columnIndex++) {
+      _winBoard[rowIndex][columnIndex] = true;
+    }
+
     return true;
   };
 
@@ -29,6 +40,11 @@ const GameBoard = () => {
         return false;
       }
     }
+
+    for (let rowIndex = 0; rowIndex < _board.length; rowIndex++) {
+      _winBoard[rowIndex][columnIndex] = true;
+    }
+
     return true;
   };
 
@@ -40,7 +56,14 @@ const GameBoard = () => {
       }
     }
 
-    return count === _board.length ? true : false;
+    if (count === _board.length) {
+      for (let i = 0; i < _board.length; i++) {
+        _winBoard[i][i] = true;
+      }
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const _isWinInRightDiagonal = () => {
@@ -51,7 +74,14 @@ const GameBoard = () => {
       }
     }
 
-    return count === _board.length ? true : false;
+    if (count === _board.length) {
+      for (let i = 0, j = _board.length-1; i < _board.length; i++, j--) {
+        _winBoard[i][j] = true;
+      }
+      return true;
+    } else {
+      return false;
+    }
   };
 
   /* Getters/Setters */
@@ -84,38 +114,49 @@ const GameBoard = () => {
   };
 
   /* Methods */
-  const isBoardSquareEmpty = ([rowIndex, columnIndex]) => {
+  const isEmptyBoardSquare = ([rowIndex, columnIndex]) => {
     return _board[rowIndex][columnIndex] === `` ? true : false;
   };
 
+  const isWinningBoardSquare = ([rowIndex, columnIndex]) => {
+    return _winBoard[rowIndex][columnIndex];
+  };
+
   const checkWin = () => {
+    let isWin = false; 
     // Check each row for win
     for (let rowIndex = 0; rowIndex < _board.length; rowIndex++) {
       if (_isWinInRow(rowIndex)) {
-        return true;
+        isWin = true; 
       }
     }
 
     // Check each column for win
     for (let columnIndex = 0; columnIndex < _board.length; columnIndex++) {
       if (_isWinInColumn(columnIndex)) {
-        return true;
+        isWin = true; 
       }
     }
 
     // Check diagonals for win
     if (_isWinInLeftDiagonal() || _isWinInRightDiagonal()) {
-      return true;
+      isWin = true; 
     }
 
     // All rows, columns and diagonals have been checked, there is no win
-    return false;
+    return isWin;
   };
 
   const resetBoard = () => {
     _board.forEach((row, rowIndex) => {
       row.forEach((column, columnIndex) => {
         _board[rowIndex][columnIndex] = ``;
+      });
+    });
+
+    _winBoard.forEach((row, rowIndex) => {
+      row.forEach((column, columnIndex) => {
+        _winBoard[rowIndex][columnIndex] = ``;
       });
     });
   };
@@ -125,7 +166,8 @@ const GameBoard = () => {
     getSize,
     getBoardSquare,
     getEmptyBoardSquares,
-    isBoardSquareEmpty,
+    isEmptyBoardSquare,
+    isWinningBoardSquare,
     checkWin,
     resetBoard,
   };

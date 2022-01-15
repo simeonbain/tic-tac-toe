@@ -122,7 +122,7 @@ const ticTacToeApp = (() => {
       game.getState() !== gameState.IN_PROGRESS ||
       !game
         .getGameBoard()
-        .isBoardSquareEmpty([
+        .isEmptyBoardSquare([
           event.target.dataset.row,
           event.target.dataset.column,
         ])
