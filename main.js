@@ -8,7 +8,7 @@ import { gameState } from "./modules/game-state.js";
 import { objectSelector } from "./modules/object-selector.js";
 import { displayController } from "./modules/display-controller.js";
 
-/* -- Main Controller -- */ 
+/* -- Main Controller -- */
 const ticTacToeApp = (() => {
   /* Constants */
   const _PLAYER_1_DEFAULT_NAME = `Player X`;
@@ -91,21 +91,21 @@ const ticTacToeApp = (() => {
     // Initialise the game
     game.initialise(player1, player2);
 
-    // Trigger an AI move in case the new current player is AI
-    _makeMoveIfAI(game.getCurrentPlayer());
-
     // Update the display
     displayController.render();
+
+    // Trigger an AI move in case the new current player is AI
+    _makeMoveIfAI(game.getCurrentPlayer());
   };
 
   const _onRestart = (event) => {
     game.restart();
 
-    // Trigger an AI move in case the current player is AI
-    _makeMoveIfAI(game.getCurrentPlayer());
-
     // Update the display
     displayController.render();
+
+    // Trigger an AI move in case the current player is AI
+    _makeMoveIfAI(game.getCurrentPlayer());
   };
 
   const _onNew = (event) => {
