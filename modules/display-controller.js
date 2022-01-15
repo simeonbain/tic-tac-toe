@@ -32,13 +32,13 @@ const displayController = (() => {
     if (game.getState() === gameState.INITIAL) {
       objectSelector.status.classList.add(`hidden`);
       objectSelector.restartButton.classList.add(`hidden`);
-      objectSelector.startScreen.classList.remove(`inactive`); 
-      objectSelector.gameScreen.classList.add(`inactive`); 
+      objectSelector.startScreen.classList.remove(`inactive`);
+      objectSelector.gameScreen.classList.add(`inactive`);
     } else {
       objectSelector.status.classList.remove(`hidden`);
       objectSelector.restartButton.classList.remove(`hidden`);
-      objectSelector.startScreen.classList.add(`inactive`); 
-      objectSelector.gameScreen.classList.remove(`inactive`); 
+      objectSelector.startScreen.classList.add(`inactive`);
+      objectSelector.gameScreen.classList.remove(`inactive`);
 
       // Update the board on game screen
       objectSelector.boardButtons.forEach((boardButton) => {
@@ -60,16 +60,17 @@ const displayController = (() => {
         }
       });
 
+      const playerName = game.getCurrentPlayer().getName();
       if (game.getState() === gameState.IN_PROGRESS) {
         // Update the next move prompt based on current player
-        objectSelector.status.firstElementChild.innerText = `${game
-          .getCurrentPlayer()
-          .getName()}'s`;
+        if (playerName.toLowerCase()[playerName.length - 1] === `s`) {
+          objectSelector.status.firstElementChild.innerText = `${playerName}'`;
+        } else {
+          objectSelector.status.firstElementChild.innerText = `${playerName}'s`;
+        }
         objectSelector.status.lastElementChild.innerText = ` Move`;
       } else if (game.getState() === gameState.WIN) {
-        objectSelector.status.firstElementChild.innerText = `${game
-          .getCurrentPlayer()
-          .getName()}`;
+        objectSelector.status.firstElementChild.innerText = `${playerName}`;
         objectSelector.status.lastElementChild.innerText = ` Wins! 🏆`;
       } else if (game.getState() === gameState.DRAW) {
         objectSelector.status.firstElementChild.innerText = ``;
