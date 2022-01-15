@@ -246,7 +246,7 @@ input::placeholder {
     font-weight: 500;
   }
 
-  .btn-board:hover {
+  .btn-board.hoverable:hover {
     border-style: solid;
   }
 }

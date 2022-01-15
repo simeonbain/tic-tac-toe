@@ -42,6 +42,9 @@ const displayController = (() => {
 
       // Update the board on game screen
       objectSelector.boardButtons.forEach((boardButton) => {
+        // Make each button hoverable
+        boardButton.classList.add(`hoverable`);
+
         // Get the value of each button based on the internal gameBoard
         const value = game
           .getGameBoard()
@@ -75,8 +78,11 @@ const displayController = (() => {
         objectSelector.status.firstElementChild.innerText = `${playerName}`;
         objectSelector.status.lastElementChild.innerText = ` Wins! 🏆`;
 
-        // Highlight the winning squares on the board
         objectSelector.boardButtons.forEach((boardButton) => {
+          // Game is over so make each button unhoverable
+          boardButton.classList.remove(`hoverable`);
+
+          // Highlight the winning squares on the board
           if (
             game
               .getGameBoard()
@@ -91,6 +97,11 @@ const displayController = (() => {
           }
         });
       } else if (game.getState() === gameState.DRAW) {
+        objectSelector.boardButtons.forEach((boardButton) => {
+          // Game is over so make each button unhoverable
+          boardButton.classList.remove(`hoverable`);
+        });
+
         // Update the status with the draw result
         objectSelector.status.firstElementChild.innerText = ``;
         objectSelector.status.lastElementChild.innerText = `It's a draw 🤝`;
