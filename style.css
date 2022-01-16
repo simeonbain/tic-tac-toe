@@ -250,3 +250,20 @@ input::placeholder {
     border-style: solid;
   }
 }
+
+/* Specific handling of compatibility issues  */
+@supports not (aspect-ratio: 1) {
+  .btn-board {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-board::after {
+    content: "";
+    display: inline-block;
+    width: 1px; 
+    height: 0;
+    padding-top: 100%;
+  } 
+}
