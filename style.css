@@ -254,7 +254,7 @@ input::placeholder {
 /* Specific handling of compatibility issues  */
 @supports not (aspect-ratio: 1) {
   .btn-board {
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
   }
@@ -262,8 +262,75 @@ input::placeholder {
   .btn-board::after {
     content: "";
     display: inline-block;
-    width: 1px; 
+    width: 1px;
     height: 0;
     padding-top: 100%;
-  } 
+  }
+}
+
+@supports not (margin-block: auto) {
+  h3,
+  button {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  input {
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .status,
+  header {
+    margin-bottom: 4rem;
+  }
+
+  .game-buttons,
+  .start {
+    margin-top: 4rem;
+  }
+}
+
+@supports not (margin-inline: auto) {
+  .game-screen {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@supports not (padding-block: auto) {
+  .start-screen,
+  .game-screen {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  @media (min-width: 1000px) {
+    .start-screen,
+    .game-screen {
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
+  }
+}
+
+@supports not (padding-inline: auto) {
+  .start-screen,
+  .game-screen {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .player2-buttons button {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  @media (min-width: 1000px) {
+    .start-screen,
+    .game-screen {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
 }
