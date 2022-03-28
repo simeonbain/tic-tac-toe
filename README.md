@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-[Live Preview](https://simeonbain.github.io/tic-tac-toe)
+[Live Site](https://simeonbain.github.io/tic-tac-toe)
 
 ## Overview
 A responsive Tic Tac Toe game web app. 
